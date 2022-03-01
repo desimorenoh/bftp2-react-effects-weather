@@ -34,7 +34,11 @@ function App() {
     function updateChuckSentence( jokes ) {
         const sentence = jokes.categories.random
         const icon_url = jokes.categories.icon_url
+
         setSentence(`La frase de Chuck de hoy es  ${sentence.value} `)
+
+
+
         setIcon(icon_url)
     }
 
@@ -58,7 +62,9 @@ function App() {
     useEffect(updateDrawing, [count]);
 
     function increaseCounter() {
-        setCount(count + 1);
+        if (count <5)
+            setCount(count + 1);
+        else (setCount (0));
 
     }
 
@@ -67,12 +73,16 @@ function App() {
             <h2>{ title }</h2>
             <img src={icon} alt="weather icon"/>
             <input type={"text"} onChange={(e) => setCityName(e.target.value) } />
+
             <h2>{sentence}</h2>
 
             <p>{`La frase de Chuck de hoy es ${sentence.value}`}</p>
+
+
+
             <p> {`La cuenta es ${count}`}</p>
             <p> { drawing } </p>
-            <button onClick={increaseCounter}>Incrementar</button>
+            <button onClick={increaseCounter}>Puntúanos!</button>
         </div>
     );
 }
