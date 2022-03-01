@@ -38,7 +38,6 @@
 }
 
 body {
-  background-color: royalblue;
   text-align: center;
 }
 
@@ -47,6 +46,7 @@ img {
 }
 
 section{
+  background-color: aqua;
   display: flex;
   flex-direction: column;
   align-items: center;

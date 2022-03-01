@@ -4,13 +4,18 @@ import Chuck from './chuck.jpeg';
 import axios from "axios";
 
 function App() {
+
     const WEATHER_API = "https://weatherdbi.herokuapp.com/data/weather/";
     const CHUCK_API = "https://api.chucknorris.io/jokes/random";
+
     const [count, setCount] = useState(0);
     const [drawing, setDrawing] = useState("");
     const [title, setTitle] = useState("");
     const [icon, setIcon] = useState("");
-    const [cityName, setCityName] = useState("barcelona");
+    const [cityName, setCityName] = useState("Barcelona");
+
+    const [frase, setFrase] = useState("");
+
     const [state, setState] = useState({joke: ''})
     const [phrase, setPhrase] = useState({joke: ''})
 
@@ -26,7 +31,7 @@ function App() {
     function updateWeatherData(data) {
         const temperature = data.currentConditions.temp.c
         const iconURL = data.currentConditions.iconURL
-        setTitle(`Buenos días, hoy tenemos ${temperature} grados en ${cityName}`)
+        setTitle(`Good Morning people! today we have ${temperature} º in ${cityName}`)
         setIcon(iconURL)
     }
 
@@ -46,8 +51,22 @@ function App() {
         if (count < 5)
             setCount(count + 1);
         else (setCount(0));
-
     }
+
+    function updateChuckSentence(jokes) {
+        const sentence = jokes.value
+        const icon_url = jokes.categories.icon_url
+
+        setFrase(sentence)
+        setIcon(icon_url)
+    }
+
+    useEffect(() => {
+        fetch(CHUCK_API) // saco el JSON de datos
+            .then(response => response.json()) //
+            .then(updateChuckSentence);
+    }, []);
+
 
     useEffect(() => {
         fetchData();
@@ -70,19 +89,16 @@ function App() {
             setIcon(icon_url)
         }*/
 
-    /*   fetch(CHUCK_API) // saco el JSON de datos
-           .then(response => response.json()) //
-           .then(sentence => sentence.value)
-           .then(updateChuckSentence);
-    },[]);*/
-
-
     return (
         <div className="App">
             <h2>{title}</h2>
-
-            <img src={icon} alt="weather icon"/>
+            <h4>Today is a</h4><img src={icon} alt="weather icon"/><h4>day</h4>
             <input type={"text"} onChange={(e) => setCityName(e.target.value)}/>
+
+
+            <h1>Chuck´s phrase for today is: </h1>
+            <h4>{`${frase}`}</h4>
+
 
             <p> {`La cuenta es ${count}`}</p>
             <p> {drawing} </p>
@@ -119,6 +135,9 @@ function App() {
                 <h4>{state.joke}</h4>
             </section>
 
+            <p> {`Rating: ${count}`}</p>
+            <p> {drawing} </p>
+            <button onClick={increaseCounter}>Rate Us!</button>
         </div>
 
     )
