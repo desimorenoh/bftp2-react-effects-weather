@@ -9,9 +9,10 @@ function App() {
     const [count, setCount] = useState(0);
     const [drawing, setDrawing] = useState("");
     const [title, setTitle] = useState("");
-    const [frase, setFrase] = useState("");
+    const [sentence, setSentence] = useState("");
     const [icon, setIcon] = useState("");
     const [cityName, setCityName] = useState("barcelona");
+
 
 
 
@@ -33,7 +34,7 @@ function App() {
     function updateChuckSentence( jokes ) {
         const sentence = jokes.categories.random
         const icon_url = jokes.categories.icon_url
-        setFrase(`La frase de Chuck de hoy es  ${sentence} `)
+        setSentence(`La frase de Chuck de hoy es  ${sentence.value} `)
         setIcon(icon_url)
     }
 
@@ -47,7 +48,7 @@ function App() {
     useEffect( () => {
         fetch(CHUCK_API ) // saco el JSON de datos
             .then(response => response.json()) //
-            .then( updateChuckSentence )
+            .then(sentence => console.log(sentence.value));
     }, []);
 
     useEffect( () => console.log(
@@ -66,8 +67,9 @@ function App() {
             <h2>{ title }</h2>
             <img src={icon} alt="weather icon"/>
             <input type={"text"} onChange={(e) => setCityName(e.target.value) } />
-            <h2>{frase}</h2>
-            <p>{`La frase de Chuck de hoy es ${sentence}`}</p>
+            <h2>{sentence}</h2>
+
+            <p>{`La frase de Chuck de hoy es ${sentence.value}`}</p>
             <p> {`La cuenta es ${count}`}</p>
             <p> { drawing } </p>
             <button onClick={increaseCounter}>Incrementar</button>
