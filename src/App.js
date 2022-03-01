@@ -9,9 +9,9 @@ function App() {
     const [count, setCount] = useState(0);
     const [drawing, setDrawing] = useState("");
     const [title, setTitle] = useState("");
-    const [sentence, setSentence] = useState("");
+    const [frase, setFrase] = useState("");
     const [icon, setIcon] = useState("");
-    const [cityName, setCityName] = useState("barcelona");
+    const [cityName, setCityName] = useState("Barcelona");
 
 
 
@@ -27,18 +27,15 @@ function App() {
     function updateWeatherData( data ) {
         const temperature = data.currentConditions.temp.c
         const iconURL = data.currentConditions.iconURL
-        setTitle(`Buenos días, hoy tenemos ${temperature} grados en ${cityName}`)
+        setTitle(`Good Morning people! today we have ${temperature} º in ${cityName}`)
         setIcon(iconURL)
     }
 
     function updateChuckSentence( jokes ) {
-        const sentence = jokes.categories.random
+        const sentence = jokes.value
         const icon_url = jokes.categories.icon_url
 
-        setSentence(`La frase de Chuck de hoy es  ${sentence.value} `)
-
-
-
+        setFrase(sentence)
         setIcon(icon_url)
     }
 
@@ -50,9 +47,9 @@ function App() {
     }, [cityName]);
 
     useEffect( () => {
-        fetch(CHUCK_API ) // saco el JSON de datos
+        fetch(CHUCK_API) // saco el JSON de datos
             .then(response => response.json()) //
-            .then(sentence => console.log(sentence.value));
+            .then(updateChuckSentence);
     }, []);
 
     useEffect( () => console.log(
@@ -68,21 +65,22 @@ function App() {
 
     }
 
+
     return (
         <div className="App">
             <h2>{ title }</h2>
-            <img src={icon} alt="weather icon"/>
+            <h4>Today is a</h4><img src={icon} alt="weather icon"/><h4>day</h4>
             <input type={"text"} onChange={(e) => setCityName(e.target.value) } />
 
-            <h2>{sentence}</h2>
 
-            <p>{`La frase de Chuck de hoy es ${sentence.value}`}</p>
+<h1>Chuck´s phrase for today is: </h1>
+            <h4>{`${frase}`}</h4>
 
 
 
-            <p> {`La cuenta es ${count}`}</p>
+            <p> {`Rating: ${count}`}</p>
             <p> { drawing } </p>
-            <button onClick={increaseCounter}>Puntúanos!</button>
+            <button onClick={increaseCounter}>Rate Us!</button>
         </div>
     );
 }
